@@ -1,77 +1,71 @@
-# x86-car-game
+# Traffic Dodge — x86-64 Assembly
 
-A real-time 2D endless driving game built entirely in x86-64 assembly, featuring direct VGA graphics (Mode 13h), a custom game loop, collision detection, and dynamic difficulty scaling.
+A real-time three-lane endless driving game written in x86-64 assembly, with a custom game loop, collision detection, scoring, high scores, and dynamic difficulty scaling.
 
----
+<p align="center">
+  <img src="assets/traffic-dodge-demo.gif" alt="Traffic Dodge gameplay demo" width="360">
+</p>
 
 ## Overview
 
-This project is a low-level arcade-style game where the player controls a car on a three-lane highway and avoids incoming traffic for as long as possible.
+Traffic Dodge is an arcade-style game where the player switches between three lanes to avoid incoming cars for as long as possible. The gameplay logic, state management, collision detection, scoring, difficulty progression, and rendering calls are implemented in x86-64 assembly.
 
-It runs in a bootable environment provided by the course and is written entirely in assembly. All rendering, input handling, and game logic are implemented without high-level libraries or frameworks.
+The checked-in desktop build uses Raylib for the window, keyboard input, timing, and drawing primitives.
 
----
+## Highlights
 
-## Gameplay
-
-- Move left and right between three lanes  
-- Avoid incoming traffic  
-- The longer you survive, the faster the game becomes  
-- Endless gameplay focused on achieving a high score  
-
----
-
-## Technical Highlights
-
-- Written in x86-64 assembly (NASM)  
-- Runs in a bootable gamelib-x64 environment  
-- VGA Mode 13h (320×200, 256 colors)  
-- Direct framebuffer memory access  
-- Custom game loop (~70 FPS, synchronized with vertical retrace)  
-- Linear Congruential Generator (LCG) for randomness  
-- Memory footprint under 1KB  
-
----
+- x86-64 assembly source split into focused modules
+- Three-lane player movement and incoming traffic
+- Real-time collision detection
+- Increasing speed and spawn rate as levels progress
+- Score tracking and an in-memory top-five high-score table
+- Restart flow after game over
+- Raylib-backed desktop rendering and input
 
 ## Controls
 
-- Left / Right arrow keys or A / D — move between lanes  
-- ESC — quit the game  
+- **Left / Right arrow keys** — switch lanes
+- **Enter** — restart after game over
+- Close the window to quit
 
----
+## Project Structure
 
-## Game Mechanics
+```text
+main.s        Entry point
+init.s        Window and game initialization
+game_loop.s   Main game loop and state flow
+input.s       Keyboard input
+update.s      Player, cars, score, and level updates
+collision.s   Collision detection
+render.s      Frame rendering
+highscore.s   High-score logic
+data.s        Game state and constants
+Makefile      Build and run targets
+```
 
-- Player car remains at a fixed vertical position and switches between three lanes  
-- Traffic cars spawn at the top and move downward  
-- Maximum of 10 traffic cars on screen at once  
-- Collision occurs when the player and a traffic car overlap in the same lane  
+## Build and Run
 
----
+### Requirements
 
-## Scoring and Difficulty
+- Linux or another environment with GNU `as` / GCC
+- Raylib development library
+- `make`
 
-- Score increases over time  
-- Initially increments every 5 frames  
-- Every 20 points, the game speed increases  
-- Minimum interval is 2 frames  
-
----
-
-## High Scores
-
-- Top 5 scores are stored in memory  
-- Scores persist until reboot  
-- Automatically ranked after each game  
-
----
-
-## Running the Game
-
-This project runs in the course-provided gamelib-x64 environment.
-
-Example build process:
+### Run
 
 ```bash
-nasm -f elf64 game.asm -o game.o
-ld game.o -o game.bin
+git clone https://github.com/rmuthukumar23/x86-bare-metal-2d-game.git
+cd x86-bare-metal-2d-game
+make
+./traffic_dodge
+```
+
+Or:
+
+```bash
+make run
+```
+
+## Technical Notes
+
+The program is assembled with GNU `as` and linked with GCC against Raylib and `libm`. The game keeps up to 10 traffic cars active, updates score and level state continuously, and stores the five best scores in memory for the current run.
