@@ -5,7 +5,7 @@
     .global window_title
     screen_width:   .long 720
     screen_height:  .long 900
-    window_titele:   .asciz "Traffic Dodge"
+    window_title:   .asciz "Traffic Dodge"
     
     # player
     .global player_x
