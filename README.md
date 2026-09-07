@@ -2,9 +2,15 @@
 
 A real-time three-lane endless driving game written in x86-64 assembly, with a custom game loop, collision detection, scoring, high scores, and dynamic difficulty scaling.
 
+## Gameplay Video
+
 <p align="center">
-  <img src="assets/traffic-dodge-demo.gif" alt="Traffic Dodge gameplay demo" width="360">
+  <a href="https://youtube.com/shorts/n1PC6fxFoC0?feature=share">
+    <img src="https://img.youtube.com/vi/n1PC6fxFoC0/hqdefault.jpg" alt="Watch Traffic Dodge gameplay on YouTube" width="420">
+  </a>
 </p>
+
+<p align="center"><strong>▶ Click the preview to watch the gameplay</strong></p>
 
 ## Overview
 
