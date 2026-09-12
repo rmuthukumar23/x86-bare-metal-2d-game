@@ -46,3 +46,5 @@ game_loop_end:
     # epilogue
     popq    %rbp
     ret
+
+.section .note.GNU-stack,"",@progbits

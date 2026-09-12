@@ -62,6 +62,7 @@ draw_game_over_screen:
     # draw final score
     movl    score, %esi
     leaq    final_score_text, %rdi
+    xorl    %eax, %eax
     call    TextFormat
     movq    %rax, %r12
     
@@ -87,6 +88,7 @@ draw_game_over_screen:
     # draw final level
     movl    level, %esi
     leaq    level_text, %rdi
+    xorl    %eax, %eax
     call    TextFormat
     movq    %rax, %r12
     
@@ -192,6 +194,7 @@ draw_level:
     # format level text
     movl    level, %esi
     leaq    level_text, %rdi
+    xorl    %eax, %eax
     call    TextFormat
     
     # draw level at top right
@@ -248,6 +251,8 @@ draw_cars:
     # prologue
     pushq   %rbp
     movq    %rsp, %rbp
+    pushq   %rbx
+    subq    $8, %rsp
     
     # loop counter
     movq    $0, %rbx
@@ -290,6 +295,8 @@ next_car_draw:
 
 draw_cars_done:
     # epilogue
+    addq    $8, %rsp
+    popq    %rbx
     popq    %rbp
     ret
 
@@ -329,6 +336,7 @@ draw_score:
     # format score text
     movl    score, %esi
     leaq    score_text, %rdi
+    xorl    %eax, %eax
     call    TextFormat
     
     # draw score at top left
@@ -347,3 +355,5 @@ draw_score:
     # epilogue
     popq    %rbp
     ret
+
+.section .note.GNU-stack,"",@progbits

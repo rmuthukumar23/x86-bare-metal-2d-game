@@ -35,3 +35,5 @@ check_right:
 input_done:
     popq    %rbp
     ret
+
+.section .note.GNU-stack,"",@progbits

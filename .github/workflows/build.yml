@@ -1,0 +1,49 @@
+name: Build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Install Linux dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            build-essential cmake git xvfb xauth \
+            libasound2-dev libx11-dev libxrandr-dev libxi-dev \
+            libgl1-mesa-dev libglu1-mesa-dev libxcursor-dev libxinerama-dev
+
+      - name: Build and install Raylib
+        run: |
+          git clone --depth 1 --branch 5.5 https://github.com/raysan5/raylib.git /tmp/raylib
+          cmake -S /tmp/raylib -B /tmp/raylib/build \
+            -DBUILD_SHARED_LIBS=ON \
+            -DBUILD_EXAMPLES=OFF \
+            -DCMAKE_BUILD_TYPE=Release
+          cmake --build /tmp/raylib/build --parallel 2
+          sudo cmake --install /tmp/raylib/build
+          sudo ldconfig
+
+      - name: Build Traffic Dodge
+        run: make
+
+      - name: Smoke test
+        run: |
+          set +e
+          timeout 5s xvfb-run -a ./traffic_dodge
+          status=$?
+          set -e
+
+          if [ "$status" -eq 0 ] || [ "$status" -eq 124 ]; then
+            echo "Traffic Dodge launched successfully"
+            exit 0
+          fi
+
+          exit "$status"

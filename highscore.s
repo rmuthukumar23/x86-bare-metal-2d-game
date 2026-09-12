@@ -7,6 +7,7 @@
 init_highscores:
     pushq   %rbp
     movq    %rsp, %rbp
+    pushq   %rbx
     
     # initialize highscores with default values (0)
     movq    $0, %rbx
@@ -25,6 +26,7 @@ init_highscores_loop:
     jmp     init_highscores_loop
     
 init_highscores_done:
+    popq    %rbx
     popq    %rbp
     ret
 
@@ -64,13 +66,13 @@ check_highscore_loop:
 
 insert_highscore:
     # shift existing scores down to make room
-    # start counter from second to last position
+    # start counter from last position
     movq    $4, %rcx
 
 shift_loop:
-    # compare the counter to the place the highscore should be inserted
+    # stop once the insertion position is reached
     cmpq    %rbx, %rcx
-    jl      shift_done
+    jle     shift_done
     
     # Move score down
     leaq    highscores, %rax
@@ -124,8 +126,7 @@ draw_highscore_entry:
     leaq    highscore_text, %rdi
     movq    %rbx, %rsi
     addq    $1, %rsi          # position + 1 (1-5 instead of 0-4)
-    movq    %rdx, %rdx        # score
-    movq    %rcx, %rcx        # level
+    xorl    %eax, %eax
     call    TextFormat
     movq    %rax, %r12        # save formatted text
     
@@ -154,3 +155,5 @@ draw_highscore_entry:
     popq    %rbx
     popq    %rbp
     ret
+
+.section .note.GNU-stack,"",@progbits

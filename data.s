@@ -137,3 +137,5 @@
     .global abs_mask
 abs_mask:
     .long 0x7FFFFFFF, 0x7FFFFFFF, 0x7FFFFFFF, 0x7FFFFFFF
+
+.section .note.GNU-stack,"",@progbits

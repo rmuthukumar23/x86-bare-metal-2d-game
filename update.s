@@ -101,6 +101,8 @@ update_cars:
     # prologue
     pushq   %rbp
     movq    %rsp, %rbp
+    pushq   %rbx
+    subq    $8, %rsp
     
     # update spawn timer
     call    GetFrameTime
@@ -154,6 +156,8 @@ next_car:
 
 update_cars_done:
     # epilogue
+    addq    $8, %rsp
+    popq    %rbx
     popq    %rbp
     ret
 
@@ -162,6 +166,8 @@ spawn_car:
     # prologue
     pushq   %rbp
     movq    %rsp, %rbp
+    pushq   %rbx
+    subq    $8, %rsp
     
     # find inactive car slot
     movq    $0, %rbx
@@ -205,6 +211,8 @@ found_slot:
 
 spawn_done:
     # epilogue
+    addq    $8, %rsp
+    popq    %rbx
     popq    %rbp
     ret
 
@@ -228,3 +236,5 @@ update_score_done:
     # epilogue
     popq    %rbp
     ret
+
+.section .note.GNU-stack,"",@progbits

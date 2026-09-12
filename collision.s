@@ -7,6 +7,7 @@ check_collisions:
     pushq   %rbp
     movq    %rsp, %rbp
     pushq   %rbx
+    subq    $8, %rsp
     
     # check collision with each active car
     movq    $0, %rbx
@@ -62,6 +63,9 @@ next_collision:
     jmp     collision_loop
 
 collision_done:
+    addq    $8, %rsp
     popq    %rbx
     popq    %rbp
     ret
+
+.section .note.GNU-stack,"",@progbits

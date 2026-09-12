@@ -10,9 +10,10 @@ main:
     call    init_game
     call    game_loop
 
-    # epilogue
+    # close the window and return success to the C runtime
     call    CloseWindow
-    movq %rbp, %rsp
-    popq %rbp
-    movq $0, %rdi
-    call exit
+    xorl    %eax, %eax
+    leave
+    ret
+
+.section .note.GNU-stack,"",@progbits

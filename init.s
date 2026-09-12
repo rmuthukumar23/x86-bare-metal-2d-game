@@ -20,6 +20,7 @@ init_game:
     call    init_highscores
     
     # initialize cars counter
+    pushq   %rbx
     movq    $0, %rbx
 
 init_cars_loop:
@@ -32,8 +33,10 @@ init_cars_loop:
     
     incq    %rbx
     jmp     init_cars_loop
-
+    
 init_cars_done:
+    popq    %rbx
+
     # initialize game state
     movl    $0, score
     movl    $0, game_over
@@ -57,6 +60,7 @@ restart_game:
     # prologue
     pushq   %rbp
     movq    %rsp, %rbp
+    pushq   %rbx
     
     # reset game over bool
     movl    $0, game_over
@@ -89,7 +93,6 @@ restart_cars_loop:
     cmpq    $10, %rbx
     jge     restart_done
     
-    
     # deactivate cars
     leaq    cars_active, %rax
     movl    $0, (%rax, %rbx, 4)
@@ -99,5 +102,8 @@ restart_cars_loop:
 
 restart_done:
     # epilogue
+    popq    %rbx
     popq    %rbp
     ret
+
+.section .note.GNU-stack,"",@progbits
