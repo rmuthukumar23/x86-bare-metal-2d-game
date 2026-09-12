@@ -1,4 +1,6 @@
-# Traffic Dodge — x86-64 Assembly
+# Traffic Dodge | x86-64 Assembly
+
+![Build](https://github.com/rmuthukumar23/traffic-dodge-x86-64-assembly/actions/workflows/build.yml/badge.svg)
 
 A real-time three-lane endless driving game written in x86-64 assembly, with a custom game loop, collision detection, scoring, high scores, and dynamic difficulty scaling.
 
@@ -30,8 +32,8 @@ The checked-in desktop build uses Raylib for the window, keyboard input, timing,
 
 ## Controls
 
-- **Left / Right arrow keys** — switch lanes
-- **Enter** — restart after game over
+- **Left / Right arrow keys** - switch lanes
+- **Enter** - restart after game over
 - Close the window to quit
 
 ## Project Structure
@@ -60,8 +62,8 @@ Makefile      Build and run targets
 ### Run
 
 ```bash
-git clone https://github.com/rmuthukumar23/x86-bare-metal-2d-game.git
-cd x86-bare-metal-2d-game
+git clone https://github.com/rmuthukumar23/traffic-dodge-x86-64-assembly.git
+cd traffic-dodge-x86-64-assembly
 make
 ./traffic_dodge
 ```
